@@ -36,30 +36,49 @@ public class Main {
             return shorturl;
         }
 
+    public static boolean isValidUrl(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            return false;
+        }
+        return url.startsWith("http://") || url.startsWith("https://");
+    }
 
 
 
 
 
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        System.out.println("Welcome to url shortner please enter the linke or input quit to exit");
         database.initialize();
 
         Scanner input = new Scanner(System.in);
+        while (true) {
+            System.out.println("Please enter the link to shroten: ");
+            String longurl = input.nextLine().trim();
+            if (longurl.equalsIgnoreCase("quit")) {
+                break;
+            }
+            if (!isValidUrl(longurl)) {
+                System.out.println("Invalid URL. Must start with http:// or https://");
 
-        System.out.println("Please enter the link to shroten: ");
-        String longurl = input.nextLine();
-
-        String shorturl = shorten(longurl);
+                continue;
+            }
 
 
-        System.out.println("Shorten link: "+shorturl);
-        System.out.println("longurl: "+longurl);
+            String shorturl = shorten(longurl);
 
-        System.out.println("Looking it back up: " + database.findLongUrl(shorturl));
+
+            System.out.println("Shorten link: " + shorturl);
+            System.out.println("longurl: " + longurl);
+
+            System.out.println("Looking it back up: " + database.findLongUrl(shorturl));
+
+
+
+        }
+        System.out.println("Thanks for shoertening");
         input.close();
-
-
     }
+
 
 }
