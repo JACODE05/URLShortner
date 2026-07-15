@@ -42,17 +42,27 @@ public class Main {
         }
         return url.startsWith("http://") || url.startsWith("https://");
     }
-
+    public static void printMenu(){
+        System.out.println("\n--- URL Shortener ---");
+        System.out.println("1. Create - shorten a new link");
+        System.out.println("2. Read   - look up a long URL by its short code");
+        System.out.println("3. List   - show every saved link");
+        System.out.println("4. Update - change the long URL for an existing short code");
+        System.out.println("5. Delete - remove a short code");
+        System.out.println("6. Quit");
+        System.out.print("Choose an option: ");
+    }
 
 
 
 
     public static void main(String[] args) {
-        System.out.println("Welcome to url shortner please enter the linke or input quit to exit");
+
         database.initialize();
 
         Scanner input = new Scanner(System.in);
         while (true) {
+        printMenu();
             System.out.println("Please enter the link to shroten: ");
             String longurl = input.nextLine().trim();
             if (longurl.equalsIgnoreCase("quit")) {

@@ -60,4 +60,17 @@ public class database {
         }
         return false;
     }
+    public static boolean delete(String shortCode) {
+        String sql = "DELETE FROM urls WHERE short_code = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, shortCode);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
