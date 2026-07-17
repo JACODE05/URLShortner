@@ -31,21 +31,21 @@ public class database {
         }
     }
 
-    public static String findLongUrl(String shortCode) {
-        String sql = "SELECT long_url FROM urls WHERE short_code = ?";
+   /// public static String findLongUrl(String shortCode) {
+     ///   String sql = "SELECT long_url FROM urls WHERE short_code = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, shortCode);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("long_url");
+     //   try (Connection conn = DriverManager.getConnection(URL);
+        //     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      //      pstmt.setString(1, shortCode);
+        //    ResultSet rs = pstmt.executeQuery();
+       //     if (rs.next()) {
+         //       return rs.getString("long_url");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+       // } catch (SQLException e) {
+       //     e.printStackTrace();
+       // }
+       // return null;
+   // }
 
     public static boolean exists(String shortCode) {
         String sql = "SELECT 1 FROM urls WHERE short_code = ?";
@@ -66,6 +66,20 @@ public class database {
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, shortCode);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean update(String shortCode, String newLongUrl) {
+        String sql = "UPDATE urls SET long_url = ? WHERE short_code = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newLongUrl);
+            pstmt.setString(2, shortCode);
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
