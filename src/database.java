@@ -31,21 +31,6 @@ public class database {
         }
     }
 
-   /// public static String findLongUrl(String shortCode) {
-     ///   String sql = "SELECT long_url FROM urls WHERE short_code = ?";
-
-     //   try (Connection conn = DriverManager.getConnection(URL);
-        //     PreparedStatement pstmt = conn.prepareStatement(sql)) {
-      //      pstmt.setString(1, shortCode);
-        //    ResultSet rs = pstmt.executeQuery();
-       //     if (rs.next()) {
-         //       return rs.getString("long_url");
-            }
-       // } catch (SQLException e) {
-       //     e.printStackTrace();
-       // }
-       // return null;
-   // }
 
     public static boolean exists(String shortCode) {
         String sql = "SELECT 1 FROM urls WHERE short_code = ?";
@@ -60,6 +45,28 @@ public class database {
         }
         return false;
     }
+
+    public static String findLongUrl(String shortCode) {
+        String sql = "SELECT long_url FROM urls WHERE short_code = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, shortCode);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("long_url");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static boolean delete(String shortCode) {
         String sql = "DELETE FROM urls WHERE short_code = ?";
 
